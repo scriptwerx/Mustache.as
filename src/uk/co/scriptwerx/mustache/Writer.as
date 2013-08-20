@@ -1,6 +1,8 @@
 /*!
  * Author: Paul Massey, Scriptwerx.co.uk
  *
+ * http://github.com/scriptwerx/mustache.as
+ *
  * ActionScript 3.0 translation of:
  * http://github.com/janl/mustache.js
  */
