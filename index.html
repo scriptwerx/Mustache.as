@@ -1,0 +1,370 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Mustache.as by scriptwerx</title>
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <script src="javascripts/respond.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <!--[if lt IE 8]>
+    <link rel="stylesheet" href="stylesheets/ie.css">
+    <![endif]-->
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+
+  </head>
+  <body>
+      <div id="header">
+        <nav>
+          <li class="fork"><a href="https://github.com/scriptwerx/Mustache.as">View On GitHub</a></li>
+          <li class="downloads"><a href="https://github.com/scriptwerx/Mustache.as/zipball/master">ZIP</a></li>
+          <li class="downloads"><a href="https://github.com/scriptwerx/Mustache.as/tarball/master">TAR</a></li>
+          <li class="title">DOWNLOADS</li>
+        </nav>
+      </div><!-- end header -->
+
+    <div class="wrapper">
+
+      <section>
+        <div id="title">
+          <h1>Mustache.as</h1>
+          <p>Logic-less {{mustache}} templates with ActionScript 3.0</p>
+          <hr>
+          <span class="credits left">Project maintained by <a href="https://github.com/scriptwerx">scriptwerx</a></span>
+          <span class="credits right">Hosted on GitHub Pages &mdash; Theme by <a href="https://twitter.com/michigangraham">mattgraham</a></span>
+        </div>
+
+        <p><a href="https://github.com/theDustRoom/mustache.as">mustache.as</a> is a conversion into ActionScript 3.0 of <a href="http://github.com/janl/mustache.js">mustache.js</a> (specifically v0.7.2) which in turn is an implementation of the <a href="http://mustache.github.com/">mustache</a> template system in JavaScript.</p>
+
+<p>I compiled this version as the previous <a href="https://github.com/hyakugei/mustache.as">ActionScript 3.0 port by Jos Yule</a> is very old and hasn't been updated in many years.</p>
+
+<p><a href="http://mustache.github.com/">Mustache</a> is a logic-less template syntax. It can be used for HTML, config files, source code - anything. It works by expanding tags in a template using values provided in a hash or object.</p>
+
+<p>We call it "logic-less" because there are no if statements, else clauses, or for loops. Instead there are only tags. Some tags are replaced with a value, some nothing, and others a series of values.</p>
+
+<p>For a language-agnostic overview of mustache's template syntax, see the <code>mustache(5)</code> <a href="http://mustache.github.com/mustache.5.html">manpage</a>.</p>
+
+<h2>
+<a name="where-to-use-mustacheas" class="anchor" href="#where-to-use-mustacheas"><span class="octicon octicon-link"></span></a>Where to use mustache.as?</h2>
+
+<p>You can use mustache.as to render mustache templates in your Flash, Flex and Air projects.</p>
+
+<h2>
+<a name="usage" class="anchor" href="#usage"><span class="octicon octicon-link"></span></a>Usage</h2>
+
+<p>Below is quick example how to use mustache.js:</p>
+
+<pre><code>import uk.co.scriptwerx.mustache.Mustache;
+
+var view = {
+  title: "Joe",
+  calc: function () {
+    return 2 + 4;
+  }
+};
+
+var mustache:Mustache = new Mustache ();
+var output:String = mustache.render ("{{title}} spends {{calc}}", view);
+</code></pre>
+
+<p>In this example, the <code>Mustache.render</code> function takes two parameters: 1) the <a href="http://mustache.github.com/">mustache</a> template and 2) a <code>view</code> object that contains the data and code needed to render the template.</p>
+
+<h2>
+<a name="templates" class="anchor" href="#templates"><span class="octicon octicon-link"></span></a>Templates</h2>
+
+<p>A <a href="http://mustache.github.com/">mustache</a> template is a string that contains any number of mustache tags. Tags are indicated by the double mustaches that surround them. <code>{{person}}</code> is a tag, as is <code>{{#person}}</code>. In both examples we refer to <code>person</code> as the tag's key.</p>
+
+<p>There are several types of tags available in mustache.js.</p>
+
+<h3>
+<a name="variables" class="anchor" href="#variables"><span class="octicon octicon-link"></span></a>Variables</h3>
+
+<p>The most basic tag type is a simple variable. A <code>{{name}}</code> tag renders the value of the <code>name</code> key in the current context. If there is no such key, nothing is rendered.</p>
+
+<p>All variables are HTML-escaped by default. If you want to render unescaped HTML, use the triple mustache: <code>{{{name}}}</code>. You can also use <code>&amp;</code> to unescape a variable.</p>
+
+<p>View:</p>
+
+<pre><code>{
+  "name": "Chris",
+  "company": "&lt;b&gt;GitHub&lt;/b&gt;"
+}
+</code></pre>
+
+<p>Template:</p>
+
+<pre><code>* {{name}}
+* {{age}}
+* {{company}}
+* {{{company}}}
+* {{&amp;company}}
+</code></pre>
+
+<p>Output:</p>
+
+<pre><code>* Chris
+*
+* &amp;lt;b&amp;gt;GitHub&amp;lt;/b&amp;gt;
+* &lt;b&gt;GitHub&lt;/b&gt;
+* &lt;b&gt;GitHub&lt;/b&gt;
+</code></pre>
+
+<p>JavaScript's dot notation may be used to access keys that are properties of objects in a view.</p>
+
+<p>View:</p>
+
+<pre><code>{
+  "name": {
+    "first": "Clem",
+    "last": "Alice"
+  },
+  "age": "RIP"
+}
+</code></pre>
+
+<p>Template:</p>
+
+<pre><code>* {{name.first}} {{name.last}}
+* {{age}}
+</code></pre>
+
+<p>Output:</p>
+
+<pre><code>* Clem Alice
+* RIP
+</code></pre>
+
+<h3>
+<a name="sections" class="anchor" href="#sections"><span class="octicon octicon-link"></span></a>Sections</h3>
+
+<p>Sections render blocks of text one or more times, depending on the value of the key in the current context.</p>
+
+<p>A section begins with a pound and ends with a slash. That is, <code>{{#person}}</code> begins a <code>person</code> section, while <code>{{/person}}</code> ends it. The text between the two tags is referred to as that section's "block".</p>
+
+<p>The behavior of the section is determined by the value of the key.</p>
+
+<h4>
+<a name="false-values-or-empty-lists" class="anchor" href="#false-values-or-empty-lists"><span class="octicon octicon-link"></span></a>False Values or Empty Lists</h4>
+
+<p>If the <code>person</code> key does not exist, or exists and has a value of <code>null</code>, <code>undefined</code>, or <code>false</code>, or is an empty list, the block will not be rendered.</p>
+
+<p>View:</p>
+
+<pre><code>{
+  "person": false
+}
+</code></pre>
+
+<p>Template:</p>
+
+<pre><code>Shown.
+{{#person}}
+Never shown!
+{{/person}}
+</code></pre>
+
+<p>Output:</p>
+
+<pre><code>Shown.
+</code></pre>
+
+<h4>
+<a name="non-empty-lists" class="anchor" href="#non-empty-lists"><span class="octicon octicon-link"></span></a>Non-Empty Lists</h4>
+
+<p>If the <code>person</code> key exists and is not <code>null</code>, <code>undefined</code>, or <code>false</code>, and is not an empty list the block will be rendered one or more times.</p>
+
+<p>When the value is a list, the block is rendered once for each item in the list. The context of the block is set to the current item in the list for each iteration. In this way we can loop over collections.</p>
+
+<p>View:</p>
+
+<pre><code>{
+  "stooges": [
+    { "name": "Moe" },
+    { "name": "Larry" },
+    { "name": "Curly" }
+  ]
+}
+</code></pre>
+
+<p>Template:</p>
+
+<pre><code>{{#stooges}}
+&lt;b&gt;{{name}}&lt;/b&gt;
+{{/stooges}}
+</code></pre>
+
+<p>Output:</p>
+
+<pre><code>&lt;b&gt;Moe&lt;/b&gt;
+&lt;b&gt;Larry&lt;/b&gt;
+&lt;b&gt;Curly&lt;/b&gt;
+</code></pre>
+
+<p>When looping over an array of strings, a <code>.</code> can be used to refer to the current item in the list.</p>
+
+<p>View:</p>
+
+<pre><code>{
+  "musketeers": ["Athos", "Aramis", "Porthos", "D'Artagnan"]
+}
+</code></pre>
+
+<p>Template:</p>
+
+<pre><code>{{#musketeers}}
+* {{.}}
+{{/musketeers}}
+</code></pre>
+
+<p>Output:</p>
+
+<pre><code>* Athos
+* Aramis
+* Porthos
+* D'Artagnan
+</code></pre>
+
+<h3>
+<a name="inverted-sections" class="anchor" href="#inverted-sections"><span class="octicon octicon-link"></span></a>Inverted Sections</h3>
+
+<p>An inverted section opens with <code>{{^section}}</code> instead of <code>{{#section}}</code>. The block of an inverted section is rendered only if the value of that section's tag is <code>null</code>, <code>undefined</code>, <code>false</code>, or an empty list.</p>
+
+<p>View:</p>
+
+<pre><code>{
+  "repos": []
+}
+</code></pre>
+
+<p>Template:</p>
+
+<pre><code>{{#repos}}&lt;b&gt;{{name}}&lt;/b&gt;{{/repos}}
+{{^repos}}No repos :({{/repos}}
+</code></pre>
+
+<p>Output:</p>
+
+<pre><code>No repos :(
+</code></pre>
+
+<h3>
+<a name="comments" class="anchor" href="#comments"><span class="octicon octicon-link"></span></a>Comments</h3>
+
+<p>Comments begin with a bang and are ignored. The following template:</p>
+
+<pre><code>&lt;h1&gt;Today{{! ignore me }}.&lt;/h1&gt;
+</code></pre>
+
+<p>Will render as follows:</p>
+
+<pre><code>&lt;h1&gt;Today.&lt;/h1&gt;
+</code></pre>
+
+<p>Comments may contain newlines.</p>
+
+<h3>
+<a name="partials" class="anchor" href="#partials"><span class="octicon octicon-link"></span></a>Partials</h3>
+
+<p>Partials begin with a greater than sign, like {{&gt; box}}.</p>
+
+<p>Partials are rendered at runtime (as opposed to compile time), so recursive partials are possible. Just avoid infinite loops.</p>
+
+<p>They also inherit the calling context. Whereas in ERB you may have this:</p>
+
+<pre><code>&lt;%= partial :next_more, :start =&gt; start, :size =&gt; size %&gt;
+</code></pre>
+
+<p>Mustache requires only this:</p>
+
+<pre><code>{{&gt; next_more}}
+</code></pre>
+
+<p>Why? Because the <code>next_more.mustache</code> file will inherit the <code>size</code> and <code>start</code> variables from the calling context. In this way you may want to think of partials as includes, or template expansion, even though it's not literally true.</p>
+
+<p>For example, this template and partial:</p>
+
+<pre><code>base.mustache:
+&lt;h2&gt;Names&lt;/h2&gt;
+{{#names}}
+  {{&gt; user}}
+{{/names}}
+
+user.mustache:
+&lt;strong&gt;{{name}}&lt;/strong&gt;
+</code></pre>
+
+<p>Can be thought of as a single, expanded template:</p>
+
+<pre><code>&lt;h2&gt;Names&lt;/h2&gt;
+{{#names}}
+  &lt;strong&gt;{{name}}&lt;/strong&gt;
+{{/names}}
+</code></pre>
+
+<p>In mustache.js an object of partials may be passed as the third argument to <code>Mustache.render</code>. The object should be keyed by the name of the partial, and its value should be the partial text.</p>
+
+<h3>
+<a name="set-delimiter" class="anchor" href="#set-delimiter"><span class="octicon octicon-link"></span></a>Set Delimiter</h3>
+
+<p>Set Delimiter tags start with an equals sign and change the tag delimiters from <code>{{</code> and <code>}}</code> to custom strings.</p>
+
+<p>Consider the following contrived example:</p>
+
+<pre><code>* {{ default_tags }}
+{{=&lt;% %&gt;=}}
+* &lt;% erb_style_tags %&gt;
+&lt;%={{ }}=%&gt;
+* {{ default_tags_again }}
+</code></pre>
+
+<p>Here we have a list with three items. The first item uses the default tag style, the second uses ERB style as defined by the Set Delimiter tag, and the third returns to the default style after yet another Set Delimiter declaration.</p>
+
+<p>According to <a href="http://google-ctemplate.googlecode.com/svn/trunk/doc/howto.html">ctemplates</a>, this "is useful for languages like TeX, where double-braces may occur in the text and are awkward to use for markup."</p>
+
+<p>Custom delimiters may not contain whitespace or the equals sign.</p>
+
+<h3>
+<a name="compiled-templates" class="anchor" href="#compiled-templates"><span class="octicon octicon-link"></span></a>Compiled Templates</h3>
+
+<p>Mustache templates can be compiled into JavaScript functions using <code>mustache.compile</code> for improved rendering performance.</p>
+
+<p>If you have template views that are rendered multiple times, compiling your template into a JavaScript function will minimise the amount of work required for each re-render.</p>
+
+<p>Pre-compiled templates can also be generated server-side, for delivery to the browser as ready to use JavaScript functions, further reducing the amount of client side processing required for initialising templates.</p>
+
+<p><strong>Mustache.compile</strong></p>
+
+<p>Use <code>mustache.compile</code> to compile standard Mustache string templates into reusable Mustache template functions.</p>
+
+<pre><code>var mustache:Mustache = new Mustache ();
+var compiledTemplate = mustache.compile (stringTemplate);
+</code></pre>
+
+<p>The function returned from <code>mustache.compile</code> can then be called directly, passing in the template data as an argument (with an object of partials as an optional second parameter), to generate the final output.</p>
+
+<pre><code>var templateOutput:String = compiledTemplate (templateData);
+</code></pre>
+
+<p><strong>Mustache.compilePartial</strong></p>
+
+<p>Template partials can also be compiled using the <code>Mustache.compilePartial</code> function. The first parameter of this function, is the name of the partial as it appears within parent templates.</p>
+
+<pre><code>mustache.compilePartial ('partial-name', stringTemplate);
+</code></pre>
+
+<p>Compiled partials are then available to both <code>Mustache.render</code> and <code>Mustache.compile</code>.</p>
+
+<p> </p>
+
+<hr>
+      </section>
+
+    </div>
+    <!--[if !IE]><script>fixScale(document);</script><![endif]-->
+    
+  </body>
+</html>
