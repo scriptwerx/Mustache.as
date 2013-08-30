@@ -11,8 +11,8 @@ package uk.co.scriptwerx.mustache
 {
     public class Mustache
     {
-        public const NAME:String = "Mustache.as";
-        public const VERSION:String = "0.7.2";
+        public static const NAME:String = "Mustache.as";
+        public static const VERSION:String = "0.7.2";
 
         // All Mustache.* functions use this writer.
         private var defaultWriter:Writer;
