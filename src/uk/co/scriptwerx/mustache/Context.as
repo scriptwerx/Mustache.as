@@ -36,7 +36,8 @@ package uk.co.scriptwerx.mustache
         {
             var value:* = _cache[name];
 
-            if (!value) {
+            if (!value)
+            {
                 if (name == '.') value = _view;
                 else
                 {

@@ -49,9 +49,9 @@ package uk.co.scriptwerx.mustache
          * @param tags
          */
 
-        public function compile (template:String, tags:* = null):Function
+        public function compile (template:String, tags:* = null):*
         {
-            var fn:Function = _cache[template];
+            var fn:* = _cache[template];
 
             if (!fn)
             {
@@ -227,7 +227,7 @@ package uk.co.scriptwerx.mustache
                 token = [type, value, start, scanner.pos];
                 tokens.push (token);
 
-                if (type === '#' || type === '^') sections.push(token);
+                if (type === '#' || type === '^') sections.push (token);
                 else if (type === '/')
                 {
                     // Check section nesting.
@@ -393,18 +393,15 @@ package uk.co.scriptwerx.mustache
                 {
                     case '#':
                         value = context.lookup (tokenValue);
-                        if (typeof value === 'object')
+                        if (getTypeof (value) === "array")
                         {
-                            if (isArray (value))
+                            for (var j:uint = 0, jlen:uint = value.length; j < jlen; ++j)
                             {
-                                for (var j:uint = 0, jlen:uint = value.length; j < jlen; ++j)
-                                {
-                                    buffer += renderTokens (token[4], writer, context.push(value[j]), template);
-                                }
+                                buffer += renderTokens (token[4], writer, context.push(value[j]), template);
                             }
-                            else if (value) buffer += renderTokens (token[4], writer, context.push(value), template);
                         }
-                        else if (typeof value === 'function')
+                        else if (getTypeof (value) === "object") buffer += renderTokens (token[4], writer, context.push (value), template);
+                        else if (getTypeof (value) === "function")
                         {
                             var text:String = template == null ? null : template.slice (token[3], token[5]);
                             value = value.call (context.view, text, function (template:String):String
@@ -413,11 +410,11 @@ package uk.co.scriptwerx.mustache
                             });
                             if (value != null) buffer += value;
                         }
-                        else if (value) buffer += renderTokens (token[4], writer, context, template);
+                        else if (value && value !== "false") buffer += renderTokens (token[4], writer, context, template);
                     break;
                     case '^':
                         value = context.lookup (tokenValue);
-                        if (!value || (isArray (value) && value.length === 0)) buffer += renderTokens (token[4], writer, context, template);
+                        if (!value || (value === "false") || (getTypeof (value) == "array" && value.length === 0)) buffer += renderTokens (token[4], writer, context, template);
                     break;
                     case '>':
                         value = writer.getPartial (tokenValue);
@@ -442,17 +439,6 @@ package uk.co.scriptwerx.mustache
 
         /**
          *
-         * @param obj
-         */
-
-        private function isArray (obj:*):Boolean
-        {
-            if (typeof (obj) === "object" && typeof (obj.length) === "number") return true;
-            return false;
-        }
-
-        /**
-         *
          * @param template
          * @param view
          * @param partials
@@ -461,6 +447,24 @@ package uk.co.scriptwerx.mustache
         public function render (template:String, view:Object, partials:Object = null):String
         {
             return compile (template)(view, partials);
+        }
+
+        /**
+         *
+         * @param o
+         * @return
+         */
+
+        public static function getTypeof (o:*):String
+        {
+            if (typeof (o) == "object")
+            {
+                if (o.length == null) return "object";
+                else if (typeof (o.length) == "number") return "array";
+                else return "object";
+            }
+
+            return typeof (o);
         }
     }
 }
