@@ -41,7 +41,7 @@ package uk.co.scriptwerx.mustache
                 if (name == '.') value = _view;
                 else
                 {
-                    var context:Context = this;
+                    var context:Context = new Context (_view, this);
 
                     while (context)
                     {
@@ -53,7 +53,14 @@ package uk.co.scriptwerx.mustache
 
                             while (value && i < names.length)
                             {
-                                value = value[names[i++]];
+                                try
+                                {
+                                    value = value[names[i ++]];
+                                }
+                                catch (e:Error)
+                                {
+                                    throw new Error ("Error in mustache template: " + e.message);
+                                }
                             }
                         }
                         else value = _view[name];
