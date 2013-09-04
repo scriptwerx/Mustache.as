@@ -38,7 +38,7 @@
           <span class="credits right">Hosted on GitHub Pages &mdash; Theme by <a href="https://twitter.com/michigangraham">mattgraham</a></span>
         </div>
 
-        <p><a href="https://github.com/theDustRoom/mustache.as">mustache.as</a> is a conversion into ActionScript 3.0 of <a href="http://github.com/janl/mustache.js">mustache.js</a> (specifically v0.7.2) which in turn is an implementation of the <a href="http://mustache.github.com/">mustache</a> template system in JavaScript.</p>
+        <p><a href="http://scriptwerx.github.io/Mustache.as">Mustache.as</a> is a conversion into ActionScript 3.0 of <a href="http://github.com/janl/mustache.js">mustache.js</a> (specifically v0.7.2) which in turn is an implementation of the <a href="http://mustache.github.com/">mustache</a> template system in JavaScript.</p>
 
 <p>I compiled this version as the previous <a href="https://github.com/hyakugei/mustache.as">ActionScript 3.0 port by Jos Yule</a> is very old and hasn't been updated in many years.</p>
 
@@ -340,7 +340,9 @@ user.mustache:
 
 <p>Use <code>mustache.compile</code> to compile standard Mustache string templates into reusable Mustache template functions.</p>
 
-<pre><code>var mustache:Mustache = new Mustache ();
+<pre><code>import uk.co.scriptwerx.mustache.Mustache;
+
+var mustache:Mustache = new Mustache ();
 var compiledTemplate = mustache.compile (stringTemplate);
 </code></pre>
 
@@ -353,12 +355,19 @@ var compiledTemplate = mustache.compile (stringTemplate);
 
 <p>Template partials can also be compiled using the <code>Mustache.compilePartial</code> function. The first parameter of this function, is the name of the partial as it appears within parent templates.</p>
 
-<pre><code>mustache.compilePartial ('partial-name', stringTemplate);
+<pre><code>import uk.co.scriptwerx.mustache.Mustache;
+
+var mustache:Mustache = new Mustache ();
+mustache.compilePartial ('partial-name', stringTemplate);
 </code></pre>
 
 <p>Compiled partials are then available to both <code>Mustache.render</code> and <code>Mustache.compile</code>.</p>
 
-<hr><p><img src="http://scriptwerx.co.uk/images/logo.png" alt="scriptwerx"></p>
+<p> </p>
+
+<hr><p> </p>
+
+<p><img src="http://scriptwerx.co.uk/images/logo.png" alt="image"></p>
       </section>
 
     </div>
