@@ -1,7 +1,7 @@
 # mustache.as - Logic-less {{mustache}} templates with ActionScript 3.0
 ---
 
-[mustache.as](https://github.com/theDustRoom/mustache.as) is a conversion into ActionScript 3.0 of [mustache.js](http://github.com/janl/mustache.js) (specifically v0.7.2) which in turn is an implementation of the [mustache](http://mustache.github.com/) template system in JavaScript.
+[Mustache.as](http://scriptwerx.github.io/Mustache.as) is a conversion into ActionScript 3.0 of [mustache.js](http://github.com/janl/mustache.js) (specifically v0.7.2) which in turn is an implementation of the [mustache](http://mustache.github.com/) template system in JavaScript.
 
 I compiled this version as the previous [ActionScript 3.0 port by Jos Yule](https://github.com/hyakugei/mustache.as) is very old and hasn't been updated in many years.
 
@@ -265,6 +265,8 @@ Pre-compiled templates can also be generated server-side, for delivery to the br
 
 Use `mustache.compile` to compile standard Mustache string templates into reusable Mustache template functions.
 
+	import uk.co.scriptwerx.mustache.Mustache;
+
 	var mustache:Mustache = new Mustache ();
     var compiledTemplate = mustache.compile (stringTemplate);
 
@@ -276,6 +278,9 @@ The function returned from `mustache.compile` can then be called directly, passi
 
 Template partials can also be compiled using the `Mustache.compilePartial` function. The first parameter of this function, is the name of the partial as it appears within parent templates.
 
+	import uk.co.scriptwerx.mustache.Mustache;
+
+	var mustache:Mustache = new Mustache ();
     mustache.compilePartial ('partial-name', stringTemplate);
 
 Compiled partials are then available to both `Mustache.render` and `Mustache.compile`.
