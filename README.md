@@ -287,4 +287,6 @@ Compiled partials are then available to both `Mustache.render` and `Mustache.com
 
 &nbsp;
 ___
+&nbsp;
 
+![image](http://scriptwerx.co.uk/images/logo.png)
