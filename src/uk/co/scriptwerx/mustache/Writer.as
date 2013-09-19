@@ -83,10 +83,7 @@ package uk.co.scriptwerx.mustache
 
         public function getPartial (name:String):String
         {
-            if (!(name in this._partialCache) && _loadPartial)
-            {
-                compilePartial (name, _loadPartial (name));
-            }
+            if (!(name in this._partialCache) && _loadPartial) compilePartial (name, _loadPartial (name));
 
             return _partialCache[name];
         }
@@ -105,10 +102,7 @@ package uk.co.scriptwerx.mustache
             {
                 if (partials)
                 {
-                    if (typeof partials === 'function')
-                    {
-                        _loadPartial = partials;
-                    }
+                    if (typeof partials === "function") _loadPartial = partials;
                     else
                     {
                         for (var name:String in partials)
@@ -134,11 +128,11 @@ package uk.co.scriptwerx.mustache
 
         private function parseTemplate (p_template:String, p_tags:*):Array
         {
-            template = p_template || '';
+            template = p_template || "";
             tags = p_tags || tags;
 
-            if (typeof tags === 'string') tags = tags.split(spaceRe);
-            if (tags.length !== 2) throw new Error('Invalid tags: ' + tags.join(', '));
+            if (typeof tags === "string") tags = tags.split (spaceRe);
+            if (tags.length !== 2) throw new Error ("Invalid tags: " + tags.join (", "));
 
             var tagRes:Array = escapeTags (tags);
             var scanner:Scanner = new Scanner (template);
@@ -189,11 +183,11 @@ package uk.co.scriptwerx.mustache
                         if (isWhitespace (chr)) spaces.push (tokens.length);
                         else nonSpace = true;
 
-                        tokens.push (['text', chr, start, start + 1]);
+                        tokens.push (["text", chr, start, start + 1]);
                         start += 1;
 
                         // Check for whitespace on the current line.
-                        if (chr == '\n') stripSpace ();
+                        if (chr == "\n") stripSpace ();
                     }
                 }
 
@@ -202,52 +196,52 @@ package uk.co.scriptwerx.mustache
                 hasTag = true;
 
                 // Get the tag type.
-                type = scanner.scan (tagRe) || 'name';
+                type = scanner.scan (tagRe) || "name";
                 scanner.scan (whiteRe);
 
                 // Get the tag value.
-                if (type === '=')
+                if (type === "=")
                 {
                     value = scanner.scanUntil (eqRe);
                     scanner.scan (eqRe);
                     scanner.scanUntil (tagRes[1]);
                 }
-                else if (type === '{')
+                else if (type === "{")
                 {
-                    value = scanner.scanUntil (new RegExp ('\\s*' + escapeRegExp('}' + tags[1])));
+                    value = scanner.scanUntil (new RegExp ("\\s*" + escapeRegExp("}" + tags[1])));
                     scanner.scan (curlyRe);
                     scanner.scanUntil (tagRes[1]);
-                    type = '&';
+                    type = "&";
                 }
                 else value = scanner.scanUntil (tagRes[1]);
 
                 // Match the closing tag.
-                if (!scanner.scan (tagRes[1])) throw new Error ('Unclosed tag at ' + scanner.pos);
+                if (!scanner.scan (tagRes[1])) throw new Error ("Unclosed tag at " + scanner.pos);
 
                 token = [type, value, start, scanner.pos];
                 tokens.push (token);
 
-                if (type === '#' || type === '^') sections.push (token);
-                else if (type === '/')
+                if (type === "#" || type === "^") sections.push (token);
+                else if (type === "/")
                 {
                     // Check section nesting.
-                    if (sections.length === 0) throw new Error('Unopened section "' + value + '" at ' + start);
+                    if (sections.length === 0) throw new Error ("Unopened section \"" + value + "\" at " + start);
                     openSection = sections.pop ();
-                    if (openSection[1] !== value) throw new Error ('Unclosed section "' + openSection[1] + '" at ' + start);
+                    if (openSection[1] !== value) throw new Error ("Unclosed section \"" + openSection[1] + "\" at " + start);
                 }
-                else if (type === 'name' || type === '{' || type === '&') nonSpace = true;
-                else if (type === '=')
+                else if (type === "name" || type === "{" || type === "&") nonSpace = true;
+                else if (type === "=")
                 {
                     // Set the tags for the next time around.
                     tags = value.split (spaceRe);
-                    if (tags.length !== 2) throw new Error ('Invalid tags at ' + start + ': ' + tags.join (', '));
+                    if (tags.length !== 2) throw new Error ("Invalid tags at " + start + ": " + tags.join (", "));
                     tagRes = escapeTags (tags);
                 }
             }
 
             // Make sure there are no open sections when we're done.
             openSection = sections.pop ();
-            if (openSection) throw new Error('Unclosed section "' + openSection[1] + '" at ' + scanner.pos);
+            if (openSection) throw new Error ("Unclosed section \"" + openSection[1] + "\" at " + scanner.pos);
 
             tokens = squashTokens (tokens);
 
@@ -273,7 +267,7 @@ package uk.co.scriptwerx.mustache
                 token = tokens[i];
                 if (token)
                 {
-                    if (token[0] === 'text' && lastToken && lastToken[0] === 'text')
+                    if (token[0] === "text" && lastToken && lastToken[0] === "text")
                     {
                         lastToken[1] += token[1];
                         lastToken[3] = token[3];
@@ -346,13 +340,13 @@ package uk.co.scriptwerx.mustache
                 token = tokens[i];
                 switch (token[0])
                 {
-                    case '#':
-                    case '^':
+                    case "#":
+                    case "^":
                         sections.push (token);
                         collector.push (token);
                         collector = token[4] = [];
                     break;
-                    case '/':
+                    case "/":
                         var section:* = sections.pop ();
                         section[5] = token[2];
                         collector = sections.length > 0 ? sections[sections.length - 1][4] : tree;
@@ -391,7 +385,7 @@ package uk.co.scriptwerx.mustache
 
                 switch (token[0])
                 {
-                    case '#':
+                    case "#":
                         value = context.lookup (tokenValue);
                         if (getTypeof (value) === "array")
                         {
@@ -412,23 +406,23 @@ package uk.co.scriptwerx.mustache
                         }
                         else if (value && value !== "false") buffer += renderTokens (token[4], writer, context, template);
                     break;
-                    case '^':
+                    case "^":
                         value = context.lookup (tokenValue);
                         if (!value || (value === "false") || (getTypeof (value) == "array" && value.length === 0)) buffer += renderTokens (token[4], writer, context, template);
                     break;
-                    case '>':
+                    case ">":
                         value = writer.getPartial (tokenValue);
                         if (typeof value === 'function') buffer += value (context);
                     break;
-                    case '&':
+                    case "&":
                         value = context.lookup (tokenValue);
                         if (value != null) buffer += value;
                     break;
-                    case 'name':
+                    case "name":
                         value = context.lookup (tokenValue);
                         if (value != null) buffer += escape (value);
                     break;
-                    case 'text':
+                    case "text":
                         buffer += tokenValue;
                     break;
                 }

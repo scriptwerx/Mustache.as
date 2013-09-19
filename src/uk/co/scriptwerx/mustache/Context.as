@@ -38,14 +38,14 @@ package uk.co.scriptwerx.mustache
 
             if (!value)
             {
-                if (name == '.') value = _view;
+                if (name == ".") value = _view;
                 else
                 {
                     var context:Context = new Context (_view, this);
 
                     while (context)
                     {
-                        if (name.indexOf ('.') != -1)
+                        if (name.indexOf (".") != -1)
                         {
                             value = context._view;
                             var names:Array = name.split ('.');
@@ -59,7 +59,7 @@ package uk.co.scriptwerx.mustache
                                 }
                                 catch (e:Error)
                                 {
-                                    throw new Error ("Error in mustache template: " + e.message);
+                                    throw new Error ("Error in mustache template - " + e.message);
                                 }
                             }
                         }
@@ -74,7 +74,7 @@ package uk.co.scriptwerx.mustache
                 _cache[name] = value;
             }
 
-            if (typeof value === 'function') value = value.call (_view);
+            if (typeof value === "function") value = value.call (_view);
 
             return value;
         }
