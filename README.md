@@ -289,4 +289,4 @@ Compiled partials are then available to both `Mustache.render` and `Mustache.com
 ___
 &nbsp;
 
-![image](http://scriptwerx.co.uk/images/logo.png)
+[![githalytics.com alpha](https://cruel-carlota.pagodabox.com/0949456f3c517ef839b662fbf1c8b187 "githalytics.com")](http://githalytics.com/scriptwerx/Mustache.as)
