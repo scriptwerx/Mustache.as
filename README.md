@@ -1,6 +1,8 @@
 # mustache.as - Logic-less {{mustache}} templates with ActionScript 3.0
 ---
 
+![Progress](http://progressed.io/bar/75)
+
 [Mustache.as](http://scriptwerx.github.io/Mustache.as) is a conversion into ActionScript 3.0 of [mustache.js](http://github.com/janl/mustache.js) (specifically v0.7.2) which in turn is an implementation of the [mustache](http://mustache.github.com/) template system in JavaScript.
 
 I compiled this version as the previous [ActionScript 3.0 port by Jos Yule](https://github.com/hyakugei/mustache.as) is very old and hasn't been updated in many years.
